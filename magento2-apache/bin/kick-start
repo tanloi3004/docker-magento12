@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [[ ! -f /var/initialize_flag.ini ]]; then 
+   if [ "$AUID" -gt "0"  ]; then 
+	#echo "Set www-data user id to $AUID";
+        usermod -u $AUID www-data
+   fi
+
+   if [ ! -z "$AGID" ]; then 
+	#echo "Set www-data group id to $AGID"
+       groupmod -g $AGID www-data
+   fi
+   touch /var/initialize_flag.ini
+fi
