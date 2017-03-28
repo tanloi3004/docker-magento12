@@ -1,0 +1,19 @@
+#!/bin/bash 
+if [[ $1 == 'd' ]]; then
+    if [[ $(grep -c '#zend' /etc/php.d/15-xdebug.ini) == '0' ]]; then
+        echo "Disabling Xdebug"
+        sed -i 's/^zend/#zend/' /etc/php.d/15-xdebug.ini
+    else
+	echo "Xdebug already disabled"
+	exit
+    fi
+else
+    if [[ $(grep -c '#zend' /etc/php.d/15-xdebug.ini) == '1' ]]; then
+        echo "Enabling xdebug"
+        sed -i 's/^#zend/zend/' /etc/php.d/15-xdebug.ini
+    else
+        echo "Xdebug already enabled"
+	exit 
+    fi
+fi
+supervisorctl restart httpd

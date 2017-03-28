@@ -6,8 +6,8 @@ COPY root/.bashrc /root/.bashrc
 
 # Add Kick-start script
 COPY bin/kick-start /usr/local/bin/
-#RUN chmod -v +x /usr/local/bin/docker-php-entrypoint
-RUN chmod -v +x /usr/local/bin/kick-start
+COPY bin/composer /usr/local/bin/
+RUN chmod -v +x /usr/local/bin/composer
 
 # Copy php.ini.sample from Magento php.ini.sample
 COPY config/php.ini.sample /usr/local/etc/php/php.ini
@@ -27,13 +27,18 @@ RUN apt-get update && apt-get install -y \
 && docker-php-ext-install -j$(nproc) intl \
 && docker-php-ext-install -j$(nproc) zip \
 && docker-php-ext-install -j$(nproc) bcmath \
-&& docker-php-ext-install -j$(nproc) pdo_mysql
+&& docker-php-ext-install -j$(nproc) pdo_mysql 
+
+RUN pecl install xdebug
+
+# Enable ssl
+
+RUN a2enmod rewrite
+RUN a2enmod ssl
+ADD config/default-ssl.conf /etc/apache2/sites-enabled/
+ADD config/apache2.conf /etc/apache2/
+ADD ssl /etc/ssl
 
 EXPOSE 80 443
 
-VOLUME ["/var/www/html", "/var/log/apache2"]
-
-
-
-
-
+VOLUME ["/var/www/html", "/var/log/apache2","/etc/ssl/certs"]
