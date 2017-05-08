@@ -1,4 +1,4 @@
-FROM php:7.0.17-apache
+FROM php:5.6-apache
 MAINTAINER Loi Vo <it.tanloi@gmail.com>
 
 # Change default .bashrc file
@@ -7,7 +7,9 @@ COPY root/.bashrc /root/.bashrc
 # Add Kick-start script
 COPY bin/kick-start /usr/local/bin/
 COPY bin/composer /usr/local/bin/
+ADD ioncube /usr/local/ioncube
 RUN chmod -v +x /usr/local/bin/composer
+RUN chmod -v +x /usr/local/bin/kick-start
 
 # Copy php.ini.sample from Magento php.ini.sample
 COPY config/php.ini.sample /usr/local/etc/php/php.ini
@@ -27,9 +29,7 @@ RUN apt-get update && apt-get install -y \
 && docker-php-ext-install -j$(nproc) intl \
 && docker-php-ext-install -j$(nproc) zip \
 && docker-php-ext-install -j$(nproc) bcmath \
-&& docker-php-ext-install -j$(nproc) pdo_mysql 
-
-RUN pecl install xdebug
+&& docker-php-ext-install -j$(nproc) pdo_mysql
 
 # Enable ssl
 

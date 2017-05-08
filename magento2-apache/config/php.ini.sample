@@ -3,6 +3,9 @@
 ; This file is for CGI/FastCGI installations.
 ; Try copying it to php5.ini, if it doesn't work
 
+;add extension ioncube
+zend_extension = /usr/local/ioncube/ioncube_loader_lin_5.6.so
+
 ; adjust memory limit
 
 memory_limit = 768M
@@ -30,3 +33,6 @@ extension=mcrypt.so
 ; Disable PHP errors, notices and warnings output in production mode to prevent exposing sensitive information.
 
 display_errors = Off
+error_log=on
+error_reporting=E_ALL
+always_populate_raw_post_data=-1
