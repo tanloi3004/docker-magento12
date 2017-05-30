@@ -8,7 +8,7 @@ COPY root/.bashrc /root/.bashrc
 COPY bin/kick-start /usr/local/bin/
 COPY bin/composer /usr/local/bin/
 RUN chmod -v +x /usr/local/bin/composer
-
+RUN chmod -v +x /usr/local/bin/kick-start
 # Copy php.ini.sample from Magento php.ini.sample
 COPY config/php.ini.sample /usr/local/etc/php/php.ini
 
